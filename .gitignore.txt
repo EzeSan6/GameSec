@@ -1,0 +1,14 @@
+# Archivos temporales de Python
+__pycache__/
+*.pyc
+
+# Archivos de reporte generados
+reporte_gamesec.txt
+
+# Entornos virtuales
+venv/
+.venv/
+
+# Configuración de editores
+.vscode/
+.idea/
