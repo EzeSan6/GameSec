@@ -7,15 +7,14 @@ from procesamiento import (
     clasificar_incidentes,
 )
 
-
 def exportar_reporte(sesiones, ruta_salida = "reporte_gamesec.txt", conclusiones = None):
-    """Genera un archivo de texto consolidando todos los análisis realizados.
+    """
+    Genera un archivo de texto consolidando todos los análisis realizados.
 
     Si no se proporcionan 'conclusiones', se solicitan interactiva por consola.
     """
     if not sesiones:
         raise ValueError("No hay datos cargados para exportar el reporte.")
-
     
     if conclusiones is None or len(conclusiones) < 3:
             print("\n--- INGRESO DE CONCLUSIONES TÉCNICAS (OBLIGATORIO) ---")
@@ -26,7 +25,6 @@ def exportar_reporte(sesiones, ruta_salida = "reporte_gamesec.txt", conclusiones
                 while not texto:
                     texto = input(f"La conclusión #{i} no puede estar vacía. Reintente: ").strip()
                 conclusiones.append(texto)
-
 
     globales = calcular_estadisticas_globales(sesiones)
     por_servidor = analizar_por_servidor(sesiones)
@@ -41,35 +39,22 @@ def exportar_reporte(sesiones, ruta_salida = "reporte_gamesec.txt", conclusiones
         # 1. Estadísticas Globales
         archivo.write("[1] RESUMEN GLOBAL OPERATIVO\n")
         archivo.write("----------------------------------------------------------------------\n")
-        archivo.write(
-            f"Total de sesiones procesadas: {globales['total_sesiones']}\n"
-        )
-        archivo.write(
-            f"Ping promedio global: {globales['ping_promedio']} ms\n"
-        )
-        archivo.write(
-            f"Duración media de partida: {globales['duracion_promedio']} min\n"
-        )
-        archivo.write(
-            f"Partidas de alta competencia (Ranked/Torneo): {globales['porcentaje_competitivas']}%\n\n"
-        )
+        archivo.write(f"Total de sesiones procesadas: {globales['total_sesiones']}\n")
+        archivo.write(f"Ping promedio global: {globales['ping_promedio']} ms\n")
+        archivo.write(f"Duración media de partida: {globales['duracion_promedio']} min\n")
+        archivo.write(f"Partidas de alta competencia (Ranked/Torneo): {globales['porcentaje_competitivas']}%\n\n")
 
         # 2. Rendimiento por Servidor
         archivo.write("[2] RENDIMIENTO REGIONAL POR SERVIDOR\n")
         archivo.write("----------------------------------------------------------------------\n")
-        archivo.write(
-            f"{'Servidor':<18} | {'Sesiones':<8} | {'Ping Promedio':<13} | {'FPS Promedio':<12}\n"
-        )
-        archivo.write(
-            "----------------------------------------------------------------------\n")
+        archivo.write(f"{'Servidor':<18} | {'Sesiones':<8} | {'Ping Promedio':<13} | {'FPS Promedio':<12}\n")
+        archivo.write("----------------------------------------------------------------------\n")
 
         for srv, datos in por_servidor.items():
             ping_str = f"{datos['ping_promedio']:.2f} ms"
             fps_str = f"{datos['fps_promedio']:.2f} fps"
             # Se aplica el alineado a la izquierda (<) manteniendo el ancho exacto de cada columna
-            archivo.write(
-                f"{srv:<18} | {datos['cantidad']:<8} | {ping_str:<13} | {fps_str:<12}\n"
-        )
+            archivo.write(f"{srv:<18} | {datos['cantidad']:<8} | {ping_str:<13} | {fps_str:<12}\n")
         archivo.write("\n")
 
         # 3. Auditoría de Seguridad
@@ -91,9 +76,7 @@ def exportar_reporte(sesiones, ruta_salida = "reporte_gamesec.txt", conclusiones
 
         archivo.write("Detalle de Sesiones Críticas Detectadas:\n")
         for c in criticos:
-            archivo.write(
-                f"[!] Sesión: #{c['id_sesion']} | Jugador: {c['jugador_id']} | Servidor: {c['servidor']}\n"
-            )
+            archivo.write(f"[!] Sesión: #{c['id_sesion']} | Jugador: {c['jugador_id']} | Servidor: {c['servidor']}\n")
             archivo.write(f"  Motivo: {c['motivo']}\n")
         archivo.write("\n")
 
@@ -124,24 +107,20 @@ def mostrar_menu():
 
 def main():
     sesiones = []
-    ruta_defecto = "gamesec_logs.csv"
+    ruta_defecto = "GameSec/gamesec_logs.csv"
 
     while True:
         mostrar_menu()
         opcion = input("Seleccione una opción: ").strip()
 
         if opcion == "1":
-            ruta = input(
-                f"Ingrese la ruta del archivo CSV [{ruta_defecto}]: "
-            ).strip()
+            ruta = input(f"Ingrese la ruta del archivo CSV [{ruta_defecto}]: ").strip()
             if not ruta:
                 ruta = ruta_defecto
 
             try:
                 sesiones = cargar_telemetria(ruta)
-                print(
-                    f"\n[+] ¡Éxito! Se cargaron {len(sesiones)} registros correctamente."
-                )
+                print(f"\n[+] ¡Éxito! Se cargaron {len(sesiones)} registros correctamente.")
             except Exception as e:
                 print(f"\n[-] Error al cargar el archivo: {e}")
 
@@ -153,18 +132,10 @@ def main():
             try:
                 stats = calcular_estadisticas_globales(sesiones)
                 print("\n--- ESTADÍSTICAS GLOBALES ---")
-                print(
-                    f"Total de sesiones:        {stats['total_sesiones']}"
-                )
-                print(
-                    f"Ping promedio global:     {stats['ping_promedio']} ms"
-                )
-                print(
-                    f"Duración promedio:        {stats['duracion_promedio']} min"
-                )
-                print(
-                    f"Sesiones competitivas:    {stats['porcentaje_competitivas']}%"
-                )
+                print(f"Total de sesiones:        {stats['total_sesiones']}")
+                print(f"Ping promedio global:     {stats['ping_promedio']} ms")
+                print(f"Duración promedio:        {stats['duracion_promedio']} min")
+                print(f"Sesiones competitivas:    {stats['porcentaje_competitivas']}%")
             except Exception as e:
                 print(f"\n[-] Error al calcular estadísticas: {e}")
 
@@ -179,9 +150,7 @@ def main():
                 for srv, datos in servidores.items():
                     print(f"\nServidor: {srv}")
                     print(f"  - Total sesiones: {datos['cantidad']}")
-                    print(
-                        f"  - Ping promedio:  {datos['ping_promedio']} ms"
-                    )
+                    print(f"  - Ping promedio:  {datos['ping_promedio']} ms")
                     print(f"  - FPS promedio:   {datos['fps_promedio']}")
             except Exception as e:
                 print(f"\n[-] Error al analizar servidores: {e}")
@@ -199,13 +168,9 @@ def main():
                 print(f"Críticos:    {frecuencias['Crítico']}")
 
                 if criticos:
-                    print(
-                        f"\n--- DETALLE DE EVENTOS CRÍTICOS ({len(criticos)}) ---"
-                    )
+                    print(f"\n--- DETALLE DE EVENTOS CRÍTICOS ({len(criticos)}) ---")
                     for ev in criticos:
-                        print(
-                            f"• ID: {ev['id_sesion']} | Jugador: {ev['jugador_id']} | Servidor: {ev['servidor']}"
-                        )
+                        print(f"• ID: {ev['id_sesion']} | Jugador: {ev['jugador_id']} | Servidor: {ev['servidor']}")
                         print(f"  Motivo: {ev['motivo']}")
             except Exception as e:
                 print(f"\n[-] Error al clasificar incidentes: {e}")
