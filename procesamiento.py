@@ -1,4 +1,4 @@
-def calcular_estadisticas_globales(sesiones: list[dict]) -> dict:
+def calcular_estadisticas_globales(sesiones):
     # 1. Validar que la lista no esté vacía
     if not sesiones:
         raise ValueError(
@@ -39,7 +39,7 @@ def calcular_estadisticas_globales(sesiones: list[dict]) -> dict:
         "porcentaje_competitivas": porcentaje_competitivas,
     }
 
-def analizar_por_servidor(sesiones: list[dict]) -> dict:
+def analizar_por_servidor(sesiones):
     if not sesiones:
         raise ValueError(
             "La lista de sesiones está vacía. No se pueden analizar los datos por servidor."
@@ -82,7 +82,7 @@ def analizar_por_servidor(sesiones: list[dict]) -> dict:
 
     return resultado
 
-def clasificar_incidentes(sesiones: list[dict]) -> tuple[dict, list[dict]]:
+def clasificar_incidentes(sesiones):
     frecuencias = {"Normal": 0, "Sospechoso": 0, "Crítico": 0}
     eventos_criticos = []
 

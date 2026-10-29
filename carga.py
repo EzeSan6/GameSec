@@ -2,7 +2,7 @@ import csv
 import os
 
 
-def cargar_telemetria(ruta_archivo: str) -> list[dict]:
+def cargar_telemetria(ruta_archivo):
     # 1. Validar existencia del archivo
     if not os.path.exists(ruta_archivo):
         raise FileNotFoundError(

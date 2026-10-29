@@ -1,5 +1,4 @@
 from datetime import date
-import os
 # Importación de las funciones de análisis desarrolladas en los pasos anteriores
 from carga import cargar_telemetria
 from procesamiento import (
@@ -9,10 +8,7 @@ from procesamiento import (
 )
 
 
-def exportar_reporte(
-    sesiones: list[dict],
-    ruta_salida: str = "reporte_gamesec.txt",
-    conclusiones: list[str] = None) -> None:
+def exportar_reporte(sesiones, ruta_salida = "reporte_gamesec.txt", conclusiones = None):
     """Genera un archivo de texto consolidando todos los análisis realizados.
 
     Si no se proporcionan 'conclusiones', se solicitan interactiva por consola.
