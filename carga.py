@@ -5,9 +5,7 @@ import os
 def cargar_telemetria(ruta_archivo):
     # Validar existencia del archivo
     if not os.path.exists(ruta_archivo):
-        raise FileNotFoundError(
-            f"El archivo especificado no existe: {ruta_archivo}"
-        )
+        raise FileNotFoundError(f"El archivo especificado no existe: {ruta_archivo}")
 
     # Definición de campos para casteo explícito
     campos_int = {"id_sesion", "ping_promedio", "fps_promedio", "intentos_fallidos", "reportes_trampa"}
